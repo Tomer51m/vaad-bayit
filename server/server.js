@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -8,18 +9,23 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 const { Pool } = require('pg');
 const config = {
-    host: 'localhost',
-    port: 5432, 
-    password: null,
-    user: 'postgres',
-    database: 'vaad_bayit'
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT
 }
+
 const pool = new Pool(config);
 
 pool.connect()
-.then(() => console.log('connected to database'))
-.catch(err => console.error('connection error:', err.stack));
-
+.then(() => {
+    console.log('connected to database');
+    initializeListener();
+})
+.catch(err => {
+    console.error('OOPS! there is a connection error:', err.stack);
+});
 
 app.get('/api/users/', async (req, res) => {
     try {
@@ -104,6 +110,11 @@ app.delete('/api/users/:id', async (req, res) => {
     }
 })
 
-app.listen( app.get('port'), () => {
-    console.log(`Server is running on port ${app.get('port')}`);
-})
+function initializeListener() {
+    app.listen( app.get('port'), () => {
+        console.log(`Server is running on port ${app.get('port')}`);
+    }).on('error', (err) => {
+        console.log('OOPS, somthing went wrong', err.stack);
+        process.exit(1);
+    });
+};
