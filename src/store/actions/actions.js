@@ -7,7 +7,7 @@ export function createUser(obj) {
 
 export function getUsers() {
   return async dispatch => {
-    const response = await fetch('http://localhost:8080/api/users/');
+    const response = await fetch("http://localhost:8080/api/users/");
     const users = await response.json();
     dispatch({
       type: "GET_USERS",

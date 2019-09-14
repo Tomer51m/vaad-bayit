@@ -13,7 +13,6 @@ function UsersList() {
     }
     dispatchUsers();
   }, []);
-
   if (!users) {
     return <div className="loading">Loading...</div>;
   } else {
