@@ -36,13 +36,13 @@ initialize().catch(err => console.error(err));
 app.get("/api/users/", async (req, res) => {
   try {
     const queryTemplate = `SELECT 
-        id,
+        res_id,
         first_name,
         last_name, 
         apartment_number,
         floor_number,
         is_owner
-        FROM users`;
+        FROM residents`;
     const response = await pool.query(queryTemplate);
     res.json(response.rows);
   } catch (err) {
@@ -55,7 +55,7 @@ app.get("/api/users/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const queryTempalate =
-      "SELECT first_name, last_name FROM users WHERE id = $1";
+      "SELECT first_name, last_name FROM users WHERE res_id = $1";
     const response = await pool.query(queryTempalate, [id]);
 
     if (response.rowCount === 0) {
@@ -69,13 +69,25 @@ app.get("/api/users/:id", async (req, res) => {
   }
 });
 
-app.post("/api/users/:id", async (req, res) => {
-  const { first_name, last_name } = req.body;
-  const id = req.params.id;
+app.post("/api/users/", async (req, res) => {
+  const {
+    first_name,
+    last_name,
+    apartment_number,
+    floor_number,
+    is_owner
+  } = req.body;
 
   try {
-    const queryTempalate = "INSERT INTO users VALUES ($1, $2, $3)";
-    await pool.query(queryTempalate, [id, first_name, last_name]);
+    const queryTempalate =
+      "INSERT INTO residents VALUES (uuid_generate_v4() ,$1, $2, $3, $4, $5)";
+    await pool.query(queryTempalate, [
+      first_name,
+      last_name,
+      apartment_number,
+      floor_number,
+      is_owner
+    ]);
     res.json({});
   } catch (err) {
     res.status(500).json(err.stack);
@@ -122,10 +134,10 @@ app.put("/api/users/:id", async (req, res) => {
   }
 });
 
-app.delete("/api/users/:id", async (req, res) => {
-  const id = req.params.id;
+app.delete("/api/users/", async (req, res) => {
+  const id = req.body.res_id;
   try {
-    const queryTempalate = "DELETE FROM users WHERE id = $1";
+    const queryTempalate = "DELETE FROM residents WHERE res_id = $1";
     await pool.query(queryTempalate, [id]);
     res.json({});
   } catch (err) {
