@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./resident.css";
 
-function Resident({ user, handleDelete }) {
+function Resident({ user, handleDelete, handleEditUser }) {
   const [isActive, setIsActive] = useState("");
   return (
     <div className="user">
@@ -17,12 +17,12 @@ function Resident({ user, handleDelete }) {
         <span>Apartment: {user.apartment_number}</span>
         <span>Floor: {user.floor_number}</span>
         <span>Status: {user.is_owner ? "Owner" : "Renting"}</span>
-        <button className="subItem_button">edit</button>
+        <button className="subItem_button" onClick={() => handleEditUser(user)}>Edit</button>
         <button
           className="subItem_button bg-warning"
-          onClick={e => handleDelete(user.res_id)}
+          onClick={() => handleDelete(user.res_id)}
         >
-          DELETE
+          Delete
         </button>
       </div>
     </div>

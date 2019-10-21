@@ -1,0 +1,20 @@
+.app {
+  display: flex;
+  flex-direction: row;
+
+  .header {
+    position: relative;
+    height: 100vh;
+    min-width: 200px;
+    max-width: 250px;
+    overflow: hidden;
+  }
+
+  .main {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    box-shadow: 2px 0px 10px 2px rgba(128, 128, 128, 0.5);
+  }
+}

@@ -54,9 +54,9 @@ app.get("/api/users/", async (req, res) => {
 app.get("/api/users/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const queryTempalate =
+    const queryTemplate =
       "SELECT first_name, last_name FROM users WHERE res_id = $1";
-    const response = await pool.query(queryTempalate, [id]);
+    const response = await pool.query(queryTemplate, [id]);
 
     if (response.rowCount === 0) {
       res.status(404).json({});
@@ -79,9 +79,9 @@ app.post("/api/users/", async (req, res) => {
   } = req.body;
 
   try {
-    const queryTempalate =
+    const queryTemplate =
       "INSERT INTO residents VALUES (uuid_generate_v4() ,$1, $2, $3, $4, $5)";
-    await pool.query(queryTempalate, [
+    await pool.query(queryTemplate, [
       first_name,
       last_name,
       apartment_number,
@@ -95,39 +95,47 @@ app.post("/api/users/", async (req, res) => {
   }
 });
 
-app.put("/api/users/:id", async (req, res) => {
+app.put("/api/users/", async (req, res) => {
   const {
     first_name,
     last_name,
     apartment_number,
     floor_number,
-    is_owner
+    is_owner,
+    res_id
   } = req.body;
-  const id = req.params.id;
+
   try {
     if (first_name) {
-      const queryTempalate = "UPDATE users SET first_name = $1 WHERE id = $2";
-      await pool.query(queryTempalate, [first_name, id]);
+      const queryTemplate =
+        "UPDATE residents SET first_name = $1 WHERE res_id = $2";
+      await pool.query(queryTemplate, [first_name, res_id]);
     }
     if (last_name) {
-      const queryTempalate = "UPDATE users SET last_name = $1 WHERE id = $2";
-      await pool.query(queryTempalate, [last_name, id]);
+      const queryTemplate =
+        "UPDATE residents SET last_name = $1 WHERE res_id = $2";
+      await pool.query(queryTemplate, [last_name, res_id]);
     }
     if (apartment_number) {
-      const queryTempalate =
-        "UPDATE users SET apartment_number = $1 WHERE id = $2";
-      await pool.query(queryTempalate, [apartment_number, id]);
+      const queryTemplate =
+        "UPDATE residents SET apartment_number = $1 WHERE res_id = $2";
+      await pool.query(queryTemplate, [apartment_number, res_id]);
     }
     if (floor_number) {
-      const queryTempalate = "UPDATE users SET floor_number = $1 WHERE id = $2";
-      await pool.query(queryTempalate, [floor_number, id]);
+      const queryTemplate =
+        "UPDATE residents SET floor_number = $1 WHERE res_id = $2";
+      await pool.query(queryTemplate, [floor_number, res_id]);
     }
     if (is_owner === true || is_owner === false) {
-      const queryTempalate = "UPDATE users SET is_owner = $1 WHERE id = $2";
-      await pool.query(queryTempalate, [is_owner, id]);
+      const queryTemplate =
+        "UPDATE residents SET is_owner = $1 WHERE res_id = $2";
+      await pool.query(queryTemplate, [is_owner, res_id]);
     }
 
-    res.json({});
+    const queryTemplate = "SELECT * FROM residents WHERE res_id = $1";;
+
+    const response = await pool.query(queryTemplate, [res_id]);
+    res.json(response.rows);
   } catch (err) {
     res.status(500).json(err.stack);
     console.error(err.stack);
@@ -137,8 +145,8 @@ app.put("/api/users/:id", async (req, res) => {
 app.delete("/api/users/", async (req, res) => {
   const id = req.body.res_id;
   try {
-    const queryTempalate = "DELETE FROM residents WHERE res_id = $1";
-    await pool.query(queryTempalate, [id]);
+    const queryTemplate = "DELETE FROM residents WHERE res_id = $1";
+    await pool.query(queryTemplate, [id]);
     res.json({});
   } catch (err) {
     res.status(500).json(err.stack);

@@ -1,0 +1,48 @@
+.header-container {
+  width: 100%;
+  height: 100%;
+
+  & .header-logo {
+    width: 100%;
+    height: 50px;
+    font-size: 30px;
+    text-align: center;
+    padding: 5px;
+
+    & a {
+      text-decoration: none;
+    }
+
+    & a:visited {
+      color: initial;
+    }
+  }
+
+  & .nav {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(47, 55, 79);
+    height: 100%;
+    color: white;
+
+    & .list-item {
+      list-style: none;
+
+      & a {
+        display: inline-block;
+        text-decoration: none;
+        padding: 10px;
+        height: 100%;
+        width: 100%;
+      }
+
+      & a:hover {
+        background-color: rgb(60, 71, 104);
+      }
+
+      & a:visited {
+        color: white;
+      }
+    }
+  }
+}

@@ -32,7 +32,7 @@ export function updateUser(resident, res_id) {
         is_owner: resident.isOwner
       })
     });
-    const data = await response.json();
+    await response.json();
   };
 }
 

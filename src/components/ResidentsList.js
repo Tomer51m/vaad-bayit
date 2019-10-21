@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "./usersList.css";
+import "./residentsList.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsers, deleteUser } from "../store/actions/actions";
 import Resident from "./Resident";
+import ResidentForm from "./ResidentForm";
 
-function UsersList() {
+function ResidentsList() {
+  const [editUser, setEditUser] = useState({
+    isEdit: false,
+    user: null
+  });
   const users = useSelector(state => state.users);
   const dispatch = useDispatch();
 
@@ -19,6 +24,16 @@ function UsersList() {
     dispatch(deleteUser(res_id));
   }
 
+  function handleEditUser(user) {
+    setEditUser({
+      user: user,
+      isEdit: true
+    });
+  }
+
+  if (editUser.isEdit) {
+    return <ResidentForm editUser={editUser.user} editMode={editUser.isEdit}/>;
+  }
   if (!users) {
     return <div>loading...</div>;
   } else {
@@ -26,7 +41,12 @@ function UsersList() {
       <div className="users">
         {users.map((user, index) => {
           return (
-            <Resident key={index} user={user} handleDelete={handleDelete} />
+            <Resident
+              key={index}
+              user={user}
+              handleDelete={handleDelete}
+              handleEditUser={handleEditUser}
+            />
           );
         })}
       </div>
@@ -34,4 +54,4 @@ function UsersList() {
   }
 }
 
-export default UsersList;
+export default ResidentsList;

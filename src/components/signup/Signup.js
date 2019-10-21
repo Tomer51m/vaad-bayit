@@ -1,5 +1,5 @@
 import React from "react";
-import "./signup.css";
+import "./signup.scss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
