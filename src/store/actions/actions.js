@@ -1,7 +1,23 @@
-export function createUser(obj) {
-  return {
-    type: "CREATE_USER",
-    payload: obj
+export function createUser(user) {
+  return async dispatch => {
+    const response = await fetch(`http://localhost:8080/api/users/`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+        first_name: user.firstName,
+        last_name: user.lastName,
+        apartment_number: user.apartmentNumber,
+        floor_number: user.floorNumber,
+        is_owner: user.isOwner
+      })
+    });
+    const newUser = await response.json();
+    dispatch({
+      type: "CREATE_USER",
+      newUser
+    });
   };
 }
 
@@ -32,7 +48,11 @@ export function updateUser(resident, res_id) {
         is_owner: resident.isOwner
       })
     });
-    await response.json();
+    const updatedUser = await response.json();
+    dispatch({
+      type: "UPDATE_USER",
+      updatedUser
+    });
   };
 }
 

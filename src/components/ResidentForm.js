@@ -3,10 +3,13 @@ import "./residentForm.css";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createUser } from "../store/actions/actions";
 
 const ResidentForm = ({ editUser, editMode }) => {
+  const dispatch = useDispatch();
   const [redirect, setRedirect] = useState(false);
-  
+
   let initialValues = {};
   if (editMode) {
     initialValues = {
@@ -78,24 +81,7 @@ const ResidentForm = ({ editUser, editMode }) => {
               }
             } else {
               try {
-                const response = await fetch(
-                  `http://localhost:8080/api/users/`,
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-type": "application/json"
-                    },
-                    body: JSON.stringify({
-                      first_name: values.firstName,
-                      last_name: values.lastName,
-                      apartment_number: values.apartmentNumber,
-                      floor_number: values.floorNumber,
-                      is_owner: values.isOwner
-                    })
-                  }
-                );
-                const data = await response.json();
-                console.log("response from server", data);
+                dispatch(createUser(values));
                 actions.resetForm();
               } catch (err) {
                 console.error(err);

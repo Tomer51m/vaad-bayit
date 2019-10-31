@@ -31,27 +31,30 @@ function ResidentsList() {
     });
   }
 
-  if (editUser.isEdit) {
-    return <ResidentForm editUser={editUser.user} editMode={editUser.isEdit}/>;
-  }
   if (!users) {
     return <div>loading...</div>;
   } else {
     return (
       <div className="users">
-        {users.map((user, index) => {
-          return (
-            <Resident
-              key={index}
-              user={user}
-              handleDelete={handleDelete}
-              handleEditUser={handleEditUser}
-            />
-          );
-        })}
+        <ul>
+          {users.map((user, index) => {
+            return (
+              <li>
+                {user.first_name} {user.last_name}
+              </li>
+            );
+          })}
+        </ul>
       </div>
     );
   }
 }
 
 export default ResidentsList;
+
+/* <Resident
+key={index}
+user={user}
+handleDelete={handleDelete}
+handleEditUser={handleEditUser}
+/> */

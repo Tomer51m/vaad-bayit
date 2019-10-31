@@ -26,7 +26,7 @@ const Login = () => {
           actions.setSubmitting(false);
         }}
       >
-        {({ values, isSubmitting }) => (
+        {({ isSubmitting }) => (
           <Form className="login__form">
             <div className="field">
               <label htmlFor="mail">Email</label>

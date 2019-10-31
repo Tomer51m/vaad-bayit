@@ -3,6 +3,7 @@ import "./resident.css";
 
 function Resident({ user, handleDelete, handleEditUser }) {
   const [isActive, setIsActive] = useState("");
+  console.log('each user', user)
   return (
     <div className="user">
       <button

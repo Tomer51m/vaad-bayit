@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const express = require("express");
 const app = express();
+const uuidv4 = require("uuid/v4");
 
 app.set("port", 8080);
 app.use(
@@ -79,9 +80,11 @@ app.post("/api/users/", async (req, res) => {
   } = req.body;
 
   try {
+    const uuid = uuidv4();
     const queryTemplate =
-      "INSERT INTO residents VALUES (uuid_generate_v4() ,$1, $2, $3, $4, $5)";
+      "INSERT INTO residents VALUES ($1, $2, $3, $4, $5, $6)";
     await pool.query(queryTemplate, [
+      uuid,
       first_name,
       last_name,
       apartment_number,
@@ -132,7 +135,7 @@ app.put("/api/users/", async (req, res) => {
       await pool.query(queryTemplate, [is_owner, res_id]);
     }
 
-    const queryTemplate = "SELECT * FROM residents WHERE res_id = $1";;
+    const queryTemplate = "SELECT * FROM residents WHERE res_id = $1";
 
     const response = await pool.query(queryTemplate, [res_id]);
     res.json(response.rows);
