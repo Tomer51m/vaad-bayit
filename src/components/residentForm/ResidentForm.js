@@ -4,7 +4,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { createUser } from "../store/actions/actions";
+import { createUser } from "../../store/actions/actions";
 
 const ResidentForm = ({ editUser, editMode }) => {
   const dispatch = useDispatch();

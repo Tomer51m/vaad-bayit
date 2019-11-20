@@ -1,0 +1,46 @@
+.residentList {
+  border: 1px solid grey;
+  padding: 20px;
+  margin: 20px;
+
+  .loading {
+    margin-top: 200px;
+  }
+  .users {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+  }
+
+  .residentUl {
+    list-style: none;
+  }
+
+  .residentLi {
+    height: 35px;
+    width: 200px;
+    margin-bottom: 5px;
+  }
+}
+
+.residentLink {
+  padding: 10px;
+  border: none;
+  font-size: 18px;
+  text-decoration: none;
+  color: initial;
+
+  &:hover {
+    background-color: deepskyblue;
+  }
+
+  &:visited {
+    color: initial;
+  }
+}
+
+.residentData {
+
+}
