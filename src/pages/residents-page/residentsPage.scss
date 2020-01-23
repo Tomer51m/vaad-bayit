@@ -1,12 +1,13 @@
 .residents-page {
-  h2 {
-    margin-top: 60px;
-    font-size: 48px;
-    text-align: center;
+    & .residents-title, .residents-desc{
+        padding: 10px 0 5px 10px;
+    }
+  .residents-header {
+    margin-bottom: 50px;
   }
-
-  p {
-    font-size: 18px;
-    text-align: center;
+  .residents-main {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
   }
 }

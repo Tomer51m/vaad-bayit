@@ -1,0 +1,27 @@
+.resident-container {
+    padding: 20px;
+    .resident-title {
+        text-decoration: underline;
+        padding-bottom: 10px;
+    }
+
+    .resident-subItem {
+        & span {
+            display: block;
+            padding-bottom: 10px;
+        }
+
+        .resident-subItem_button {
+            color: white;
+            background-color: skyblue;
+            width: 80px;
+            margin-right: 10px;
+            padding: 5px 8px;
+            font-size: 14px;
+        }
+
+        .bg-warning {
+            background-color: red;
+        }
+    }
+}

@@ -1,7 +1,10 @@
 import React from "react";
 
 function NoMatch({ location }) {
-  return <div>Path to {location.pathname} leads nowhere...</div>;
+  return <div>
+    <h2>404 - OOPS...</h2>
+    <p>Path to {location.pathname} leads nowhere...</p>
+    </div>;
 }
 
 export default NoMatch;

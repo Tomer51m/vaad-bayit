@@ -1,26 +1,24 @@
 import React, { useState } from "react";
-import "./resident.css";
+import "./resident.scss";
 
 function Resident({ user, handleDelete, handleEditUser }) {
   const [isActive, setIsActive] = useState("");
-  console.log('each user', user)
+  console.log("each user", user[0]);
+  user = user[0];
   return (
-    <div className="user">
-      <button
-        className="users_item users_title"
-        onClick={() =>
-          isActive === "" ? setIsActive("active") : setIsActive("")
-        }
-      >
+    <div className="resident-container">
+      <h2 className="resident-title">
         {user.first_name} {user.last_name}
-      </button>
-      <div className={`users_subItem ${isActive}`}>
+      </h2>
+      <div className={`resident-subItem ${isActive}`}>
         <span>Apartment: {user.apartment_number}</span>
         <span>Floor: {user.floor_number}</span>
         <span>Status: {user.is_owner ? "Owner" : "Renting"}</span>
-        <button className="subItem_button" onClick={() => handleEditUser(user)}>Edit</button>
+        <button className="resident-subItem_button" onClick={() => handleEditUser(user)}>
+          Edit
+        </button>
         <button
-          className="subItem_button bg-warning"
+          className="resident-subItem_button bg-warning"
           onClick={() => handleDelete(user.res_id)}
         >
           Delete

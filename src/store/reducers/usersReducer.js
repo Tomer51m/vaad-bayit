@@ -1,7 +1,7 @@
 const usersReducer = (state = [], action) => {
   switch (action.type) {
     case "CREATE_USER":
-      return [...state, action.user];
+      return [...state, action.newUser];
     case "GET_USERS":
       return action.users;
     case "DELETE_USER":

@@ -9,6 +9,7 @@ import ResidentForm from "../residentForm/ResidentForm";
 import NoMatch from "../no-match/NoMatch";
 import Home from "../home/Home";
 import ResidentsPage from "../../pages/residents-page/ResidentsPage";
+import ResidentsList from "../../components/residentList/ResidentsList";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
       <main className="main">
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/residents" component={ResidentsPage} />
+          <Route path="/residents" component={ResidentsPage} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/add" component={ResidentForm} />
