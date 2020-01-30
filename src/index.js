@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./components/app/App";
+import App from "./app/App";
 import Login from "./components/login/Login";
 import * as serviceWorker from "./serviceWorker";
 import ReduxThunk from "redux-thunk";

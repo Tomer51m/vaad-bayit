@@ -2,12 +2,11 @@ import React from "react";
 import "./app.scss";
 import { Switch, Route } from "react-router-dom";
 
-import Nav from "../nav/Nav";
-import ProtectedRoute from "../../ProtectedRoute";
-import Signup from "../signup/Signup";
-import ResidentForm from "../residentForm/ResidentForm";
-import Home from "../home/Home";
-import ResidentsPage from "../../pages/residents-page/ResidentsPage";
+import Nav from "../components/nav/Nav";
+import Signup from "../components/signup/Signup";
+import ResidentForm from "../components/residentForm/ResidentForm";
+import Home from "../pages/home/Home";
+import ResidentsPage from "../pages/residents-page/ResidentsPage";
 
 function App() {
   console.log("rendering app");
