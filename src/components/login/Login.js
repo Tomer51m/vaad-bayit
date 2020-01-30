@@ -2,6 +2,7 @@ import React from "react";
 import "./login.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import auth from '../../Auth';
 
 const initialValues = { email: "", password: "" };
 
@@ -14,7 +15,8 @@ const errorSchema = Yup.object({
     .required("Password is required")
 });
 
-const Login = () => {
+const Login = (props) => {
+  console.log('@@@GIL login render')
   return (
     <div className="login">
       <h1 className="login__header">Login</h1>
@@ -24,6 +26,9 @@ const Login = () => {
         onSubmit={(values, actions) => {
           console.log(JSON.stringify(values, null, 2));
           actions.setSubmitting(false);
+          auth.login(() => {
+            props.history.push('/')
+          })
         }}
       >
         {({ isSubmitting }) => (

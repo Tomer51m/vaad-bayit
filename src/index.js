@@ -2,9 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./components/app/App";
+import Login from "./components/login/Login";
 import * as serviceWorker from "./serviceWorker";
 import ReduxThunk from "redux-thunk";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
+import NoMatch from "./components/no-match/NoMatch";
 
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
@@ -21,10 +24,14 @@ store.subscribe(() => store.getState());
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <ProtectedRoute path="/" component={App} />
+        <Route component={NoMatch} />
+      </Switch>
     </BrowserRouter>
   </Provider>,
-  document.getElementById("root")
+  document.getElementById("app-root")
 );
 
 // If you want your app to work offline and load faster, you can change

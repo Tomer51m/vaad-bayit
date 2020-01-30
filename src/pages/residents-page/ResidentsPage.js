@@ -8,6 +8,8 @@ import Resident from "../../components/resident/Resident";
 import ResidentsList from "../../components/residentList/ResidentsList";
 
 function ResidentsPage(props) {
+  console.log("rendering resident page")
+  console.log("resident page props:", props)
   const [editUser, setEditUser] = useState({
     isEdit: false,
     user: null
@@ -49,15 +51,16 @@ function ResidentsPage(props) {
         <div className="residents-data">
           <Route
             path="/residents/:residentId"
-            render={props => (
-              <Resident
+            render={ () => { 
+            console.log("resident route")
+              return <Resident
                 {...props}
                 handleDelete={handleDelete}
                 user={users.filter(
                   user => user.res_id === props.match.params.residentId
                 )}
-              />
-            )}
+              />}
+            }
           />
         </div>
       </main>
@@ -66,3 +69,4 @@ function ResidentsPage(props) {
 }
 
 export default ResidentsPage;
+// export default withRouter(ResidentsPage);
