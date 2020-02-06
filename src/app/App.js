@@ -1,6 +1,7 @@
 import React from "react";
 import "./app.scss";
-import { Switch, Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
+import PrivateRoute from "../PrivateRoute"
 
 import Nav from "../components/nav/Nav";
 import Signup from "../components/signup/Signup";
@@ -17,10 +18,10 @@ function App() {
       </header>
       <main className="main">
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/residents" component={ResidentsPage} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/add" component={ResidentForm} />
+          <PrivateRoute exact path="/" component={Home} />
+          <PrivateRoute path="/residents" component={ResidentsPage} />
+          <PrivateRoute exact path="/signup" component={Signup} />
+          <PrivateRoute exact path="/add" component={ResidentForm} />
         </Switch>
       </main>
     </div>

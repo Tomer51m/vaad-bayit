@@ -2,9 +2,11 @@ import React from "react";
 import "./login.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import auth from '../../Auth';
+import auth from "../../Auth";
+import { useHistory } from "react-router-dom";
 
 const initialValues = { email: "", password: "" };
+
 
 const errorSchema = Yup.object({
   email: Yup.string()
@@ -15,8 +17,9 @@ const errorSchema = Yup.object({
     .required("Password is required")
 });
 
-const Login = (props) => {
-  console.log('@@@GIL login render')
+const Login = () => {
+  const history = useHistory();
+
   return (
     <div className="login">
       <h1 className="login__header">Login</h1>
@@ -27,8 +30,8 @@ const Login = (props) => {
           console.log(JSON.stringify(values, null, 2));
           actions.setSubmitting(false);
           auth.login(() => {
-            props.history.push('/')
-          })
+            history.push("/");
+          });
         }}
       >
         {({ isSubmitting }) => (
@@ -42,7 +45,7 @@ const Login = (props) => {
               />
             </div>
             <div className="field">
-                <label htmlFor='password'>Password</label>
+              <label htmlFor="password">Password</label>
               <Field name="password" type="password" />
               <ErrorMessage
                 name="password"
