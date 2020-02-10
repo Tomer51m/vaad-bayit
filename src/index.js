@@ -8,7 +8,6 @@ import ReduxThunk from "redux-thunk";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import NoMatch from "./components/no-match/NoMatch";
-import WelcomePage from "./pages/welcome-page/welcomePage";
 
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
@@ -26,8 +25,8 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={WelcomePage} />
-        <ProtectedRoute path="/home" component={App} />
+        <Route exact path="/login" component={Login} />
+        <ProtectedRoute path="/" component={App} />
         <Route component={NoMatch} />
       </Switch>
     </BrowserRouter>
