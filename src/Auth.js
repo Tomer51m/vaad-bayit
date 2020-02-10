@@ -1,9 +1,30 @@
-let isAuthenticated_ = false;
+class Auth {
+  constructor() {
+    this.authenticated = false;
+  }
 
-export function isAuthenticated() {
-  return isAuthenticated;
+  login(cb) {
+    this.authenticated = true;
+    cb();
+  }
+
+  logout() {
+    this.authenticated = false;
+  }
+
+  isAuthenticated() {
+    return this.authenticated;
+  }
 }
 
-export function setAuthentication(authenticated) {
-  isAuthenticated_ = authenticated;
-}
+export default new Auth();
+
+// let isAuthenticated_ = false
+// export function isAuthenticated() {
+//   return isAuthenticated
+// }
+
+
+// export setAuthentication(authenticated) {
+//   isAuthenticated_ = authenticated
+// }

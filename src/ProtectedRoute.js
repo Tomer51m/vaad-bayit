@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import auth from "./Auth";
 
-function PrivateRoute({ children, component, ...rest }) {
+function ProtectedRoute({ children, component, ...rest }) {
   console.log("protected route children:", children)
   console.log("protected route component:", children)
   return (
@@ -27,4 +27,4 @@ function PrivateRoute({ children, component, ...rest }) {
   );
 }
 
-export default PrivateRoute;
+export default ProtectedRoute;

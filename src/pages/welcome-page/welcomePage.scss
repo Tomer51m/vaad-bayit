@@ -1,18 +1,7 @@
 .welcomePage-container {
-    width: 80%;
-    margin: 0 auto;
-
-    .header-container {
-        width: 500px;
-        margin: 40px auto;
-
-        & h2 {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-
-        & p {
-            text-align: center;
-        }
+    display: flex;
+    flex-direction: row;
+    .welcomePage-header {
+        
     }
 }
