@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./residentForm.css";
+import "./residentForm.scss";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Redirect } from "react-router-dom";

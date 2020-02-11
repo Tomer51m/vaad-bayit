@@ -12,7 +12,7 @@ function ResidentsList({ users, match, location }) {
           {users.map(user => {
             return (
               <li className="residentList-li" key={user.res_id}>
-                <Link to={`/residents/${user.res_id}`} className="residentLink">
+                <Link to={`/home/residents/${user.res_id}`} className="residentLink">
                   {user.first_name} {user.last_name}
                 </Link>
               </li>

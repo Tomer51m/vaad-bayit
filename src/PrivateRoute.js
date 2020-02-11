@@ -1,18 +1,17 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import auth from "./Auth";
+import { isAuthenticated } from "./Auth";
 
-function ProtectedRoute({ children, component, ...rest }) {
-  console.log("protected route children:", children)
-  console.log("protected route component:", children)
+function PrivateRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
       render={props => {
-        if (auth.isAuthenticated()) {
-          return children;
+        if (isAuthenticated()) {
+          console.log("redirecting to component");
+          return <Component {...props} />;
         } else {
-          console.log('@@@GIL redirecting to login')
+          console.log("redirecting to login");
           return (
             <Redirect
               to={{
@@ -27,4 +26,4 @@ function ProtectedRoute({ children, component, ...rest }) {
   );
 }
 
-export default ProtectedRoute;
+export default PrivateRoute;

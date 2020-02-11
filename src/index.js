@@ -2,13 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./app/App";
-import Login from "./components/login/Login";
 import * as serviceWorker from "./serviceWorker";
 import ReduxThunk from "redux-thunk";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import ProtectedRoute from "./ProtectedRoute";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
+import PrivateRoute from "./PrivateRoute";
 import NoMatch from "./components/no-match/NoMatch";
+import LoginPage from "./pages/login-page/LoginPage";
+import SignupPage from "./pages/signup-page/SignupPage";
+import history from "./history";
 
+//store
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import allReducers from "./store/reducers/allReducers";
@@ -23,13 +26,15 @@ store.subscribe(() => store.getState());
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <Router history={history}>
       <Switch>
-        <Route exact path="/login" component={Login} />
-        <ProtectedRoute path="/" component={App} />
+        <PrivateRoute path="/home" component={App} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/signup" component={SignupPage} />
+        <Route path="/" render={() => <Redirect to="/home" />} />
         <Route component={NoMatch} />
       </Switch>
-    </BrowserRouter>
+    </Router>
   </Provider>,
   document.getElementById("app-root")
 );

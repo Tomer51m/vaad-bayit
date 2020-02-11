@@ -1,9 +1,9 @@
 import React from "react";
 import "./app.scss";
-import { Switch, Route } from "react-router-dom";
+import { Router, Switch, Route, Redirect } from "react-router-dom";
+import history from "../history";
 
 import Nav from "../components/nav/Nav";
-import Signup from "../components/signup/Signup";
 import ResidentForm from "../components/residentForm/ResidentForm";
 import Home from "../pages/home/Home";
 import ResidentsPage from "../pages/residents-page/ResidentsPage";
@@ -16,12 +16,13 @@ function App() {
         <Nav />
       </header>
       <main className="main">
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/residents" component={ResidentsPage} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/add" component={ResidentForm} />
-        </Switch>
+        <Router history={history}>
+          <Switch>
+            <Route exact path="/home" component={Home} />
+            <Route path="/home/residents" component={ResidentsPage} />
+            <Route path="/home/add" component={ResidentForm} />
+          </Switch>
+        </Router>
       </main>
     </div>
   );

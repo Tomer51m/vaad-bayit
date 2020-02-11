@@ -3,7 +3,7 @@ import "./resident.scss";
 
 function Resident({ user, handleDelete, handleEditUser }) {
   const [isActive, setIsActive] = useState("");
-  console.log("each user", user[0]);
+  console.log("user", user);
   user = user[0];
   return (
     <div className="resident-container">

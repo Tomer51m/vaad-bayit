@@ -1,22 +1,23 @@
 import React from "react";
-import "./login.css";
+import "./loginForm.scss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import auth from '../../Auth';
-
+import { setAuthentication } from "../../Auth";
+import { Redirect } from "react-router-dom";
+import history from "../../history";
 const initialValues = { email: "", password: "" };
 
 const errorSchema = Yup.object({
-  email: Yup.string()
-    .email("Invalid Email")
-    .required("Email is required"),
+  email: Yup.string(),
+    // .email("Invalid Email")
+    // .required("Email is required"),
   password: Yup.string()
-    .min(8, "Password must be 8 characters or longer")
-    .required("Password is required")
+    // .min(8, "Password must be 8 characters or longer")
+    // .required("Password is required")
 });
 
-const Login = (props) => {
-  console.log('@@@GIL login render')
+const Login = props => {
+  console.log("login render");
   return (
     <div className="login">
       <h1 className="login__header">Login</h1>
@@ -26,9 +27,8 @@ const Login = (props) => {
         onSubmit={(values, actions) => {
           console.log(JSON.stringify(values, null, 2));
           actions.setSubmitting(false);
-          auth.login(() => {
-            props.history.push('/')
-          })
+          setAuthentication(true);
+          history.push("/home");
         }}
       >
         {({ isSubmitting }) => (
@@ -42,7 +42,7 @@ const Login = (props) => {
               />
             </div>
             <div className="field">
-                <label htmlFor='password'>Password</label>
+              <label htmlFor="password">Password</label>
               <Field name="password" type="password" />
               <ErrorMessage
                 name="password"
