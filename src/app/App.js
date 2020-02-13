@@ -9,7 +9,6 @@ import Home from "../pages/home/Home";
 import ResidentsPage from "../pages/residents-page/ResidentsPage";
 
 function App() {
-  console.log("rendering app");
   return (
     <div className="app">
       <header className="header">

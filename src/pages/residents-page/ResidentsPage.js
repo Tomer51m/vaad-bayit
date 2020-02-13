@@ -11,13 +11,8 @@ import Modal from "../../components/modal/Modal";
 import ResidentForm from "../../components/residentForm/ResidentForm";
 
 function ResidentsPage() {
-  console.log("rendering resident page");
   const [showModal, setShowModal] = useState(false);
-  console.log("showmodal:", showModal)
-  const [editUser, setEditUser] = useState({
-    isEdit: false,
-    user: null
-  });
+  const [editUser, setEditUser] = useState(null);
   const users = useSelector(state => state.users);
   const dispatch = useDispatch();
 
@@ -35,21 +30,18 @@ function ResidentsPage() {
 
   function handleEditUser(user) {
     setShowModal(true);
-    setEditUser({
-      user: user,
-      isEdit: true
-    });
+    setEditUser(user);
   }
 
   function handleCloseModal() {
-    setShowModal(false)
+    setShowModal(false);
   }
 
   return (
     <div className="residents-page">
-        <Modal showModal={showModal} handleClose={handleCloseModal}>
-          <ResidentForm />
-        </Modal>
+      <Modal showModal={showModal} handleClose={handleCloseModal}>
+        <ResidentForm editUser={editUser} />
+      </Modal>
       <header className="residents-header">
         <h2 className="residents-title">Residents page</h2>
         <p className="residents-desc">

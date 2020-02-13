@@ -21,6 +21,7 @@
   & .nav {
     display: flex;
     flex-direction: column;
+    padding-top: 10px;
     background-color: rgb(47, 55, 79);
     height: 100%;
     color: white;
@@ -44,5 +45,14 @@
         color: white;
       }
     }
+  }
+
+  .logout-button {
+    width: 100px;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 11px;
   }
 }

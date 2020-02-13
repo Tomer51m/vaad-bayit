@@ -19,7 +19,7 @@ function Nav() {
         <li className="list-item">
           <Link to={`${url}/add`}>Add Resident</Link>
         </li>
-        <button
+        <button className="logout-button"
           onClick={() => {
             setAuthentication(false);
             history.push("/login");

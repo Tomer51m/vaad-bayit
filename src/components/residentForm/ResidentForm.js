@@ -4,20 +4,28 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { createUser } from "../../store/actions/actions";
+import { createUser, updateUser } from "../../store/actions/actions";
 
-const ResidentForm = ({ editUser, editMode }) => {
+const ResidentForm = ({ editUser }) => {
   const dispatch = useDispatch();
   const [redirect, setRedirect] = useState(false);
-
+  
   let initialValues = {};
-  if (editMode) {
+  if (editUser) {
+    let {
+      first_name,
+      last_name,
+      apartment_number,
+      floor_number,
+      is_owner
+    } = editUser;
+
     initialValues = {
-      firstName: editUser.first_name,
-      lastName: editUser.last_name,
-      apartmentNumber: editUser.apartment_number,
-      floorNumber: editUser.floor_number,
-      isOwner: editUser.is_owner
+      firstName: first_name,
+      lastName: last_name,
+      apartmentNumber: apartment_number,
+      floorNumber: floor_number,
+      isOwner: is_owner
     };
   } else {
     initialValues = {
@@ -37,57 +45,42 @@ const ResidentForm = ({ editUser, editMode }) => {
     isOwner: Yup.boolean().required("Required")
   });
 
-  function handelCancel() {
+  const handleSubmit = (values, actions) => {
+    actions.setSubmitting(true);
+    console.log(JSON.stringify(values));
+    if (editUser) {
+      try {
+        dispatch(updateUser(values, editUser.res_id));
+        actions.setSubmitting(false);
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      try {
+        dispatch(createUser(values));
+        actions.resetForm();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+
+  const handelCancel = () => {
     console.log("canceled");
     setRedirect(true);
   }
-
   if (redirect) {
-    return <Redirect to="/" />;
+    return <Redirect to="/home/residents" />;
   } else {
     return (
       <div className="addresident">
         <h1 className="addresident__header">Add Resident</h1>
+        {console.log("initial values", initialValues)}
         <Formik
+          enableReinitialize={true}
           initialValues={initialValues}
           validationSchema={errorSchema}
-          onSubmit={async (values, actions) => {
-            actions.setSubmitting(true);
-            console.log(JSON.stringify(values));
-            if (editMode) {
-              try {
-                const response = await fetch(
-                  `http://localhost:8080/api/users/`,
-                  {
-                    method: "PUT",
-                    headers: {
-                      "Content-type": "application/json"
-                    },
-                    body: JSON.stringify({
-                      first_name: values.firstName,
-                      last_name: values.lastName,
-                      apartment_number: values.apartmentNumber,
-                      floor_number: values.floorNumber,
-                      is_owner: values.isOwner,
-                      res_id: editUser.res_id
-                    })
-                  }
-                );
-                const data = await response.json();
-                console.log("response from server", data);
-                actions.resetForm();
-              } catch (err) {
-                console.error(err);
-              }
-            } else {
-              try {
-                dispatch(createUser(values));
-                actions.resetForm();
-              } catch (err) {
-                console.error(err);
-              }
-            }
-          }}
+          onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (
             <Form className="addresident__form">

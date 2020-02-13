@@ -4,15 +4,14 @@ import "./modal.scss";
 
 function Modal({ children, showModal, handleClose }) {
   let showHideClassName = showModal
-    ? "modal display-block"
-    : "modal display-none";
+    ? "display-block"
+    : "display-none";
 
   return ReactDOM.createPortal(
     <div className={`modal-container ${showHideClassName}`}>
       {children}
       <button onClick={handleClose}>close</button>
     </div>,
-
     document.getElementById("modal-root")
   );
 }
