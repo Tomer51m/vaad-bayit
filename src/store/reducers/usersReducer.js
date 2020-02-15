@@ -7,13 +7,19 @@ const usersReducer = (state = [], action) => {
     case "DELETE_USER":
       return state.filter(user => user.res_id !== action.res_id);
     case "UPDATE_USER":
-      return state.map(user => {
+      console.table(state)
+      console.log("action updated user",action.updatedUser)
+
+      let map = state.map(user => {
         if (user.res_id === action.updatedUser.res_id) {
+          console.log("map function user",user)
           return action.updatedUser;
         } else {
           return user;
         }
       });
+      console.table(state)
+      return map
     default:
       return state;
   }

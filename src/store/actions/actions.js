@@ -49,6 +49,7 @@ export function updateUser(resident, res_id) {
       })
     });
     const updatedUser = await response.json();
+    console.log("1121212", updatedUser)
     dispatch({
       type: "UPDATE_USER",
       updatedUser
