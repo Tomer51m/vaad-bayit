@@ -15,10 +15,11 @@ import history from "./history";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import allReducers from "./store/reducers/allReducers";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 const store = createStore(
   allReducers,
-  applyMiddleware(ReduxThunk)
+  composeWithDevTools(applyMiddleware(ReduxThunk))
 );
 
 store.subscribe(() => store.getState());
