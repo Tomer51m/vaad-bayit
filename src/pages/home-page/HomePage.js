@@ -1,7 +1,7 @@
 import React from "react";
-import "./home.scss";
+import "./homePage.scss";
 
-function Home() {
+function HomePage() {
   return (
     <div className="home-container">
       <h2>Welcom to Vaad-Bayit</h2>
@@ -10,4 +10,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePage;

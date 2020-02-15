@@ -5,7 +5,7 @@ import history from "../history";
 
 import Nav from "../components/nav/Nav";
 import ResidentForm from "../components/residentForm/ResidentForm";
-import Home from "../pages/home/Home";
+import HomePage from "../pages/home-page/HomePage";
 import ResidentsPage from "../pages/residents-page/ResidentsPage";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
       <main className="main">
         <Router history={history}>
           <Switch>
-            <Route exact path="/home" component={Home} />
+            <Route exact path="/home" component={HomePage} />
             <Route path="/home/residents" component={ResidentsPage} />
             <Route path="/home/add" component={ResidentForm} />
           </Switch>
