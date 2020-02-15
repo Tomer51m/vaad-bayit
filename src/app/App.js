@@ -7,6 +7,7 @@ import Nav from "../components/nav/Nav";
 import ResidentForm from "../components/residentForm/ResidentForm";
 import HomePage from "../pages/home-page/HomePage";
 import ResidentsPage from "../pages/residents-page/ResidentsPage";
+import AddResidentPage from "../pages/addResident-page/AddResidentPage";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           <Switch>
             <Route exact path="/home" component={HomePage} />
             <Route path="/home/residents" component={ResidentsPage} />
-            <Route path="/home/add" component={ResidentForm} />
+            <Route path="/home/add" component={AddResidentPage} />
           </Switch>
         </Router>
       </main>
