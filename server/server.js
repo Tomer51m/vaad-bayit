@@ -138,7 +138,8 @@ app.put("/api/users/", async (req, res) => {
     const queryTemplate = "SELECT * FROM residents WHERE res_id = $1";
 
     const response = await pool.query(queryTemplate, [res_id]);
-    res.json(response.rows);
+    let user = response.rows[0]
+    res.json(user);
   } catch (err) {
     res.status(500).json(err.stack);
     console.error(err.stack);
