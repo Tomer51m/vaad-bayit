@@ -1,12 +1,13 @@
-import React, { useState }from "react";
+import React from "react";
 import "./signupPage.scss";
 
 import { useHistory } from "react-router-dom";
+import history from "../../history";
 
 import SignupForm from "../../components/signup-form/SignupForm";
 
 function LandingPage() {
-    let history = useHistory();
+    // let history = useHistory();
     function handleClick() {
         history.push("/login")
     }  
