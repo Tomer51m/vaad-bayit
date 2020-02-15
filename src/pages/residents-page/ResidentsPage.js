@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./residentsPage.scss";
 import { Router, Route } from "react-router-dom";
 import history from "../../history";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { getUsers, deleteUser } from "../../store/actions/actions";
 
 import Resident from "../../components/resident/Resident";
@@ -13,7 +13,7 @@ import ResidentForm from "../../components/residentForm/ResidentForm";
 function ResidentsPage() {
   const [showModal, setShowModal] = useState(false);
   const [editUser, setEditUser] = useState(null);
-  const users = useSelector(state => state.users);
+  const users = useSelector(state => state.users, shallowEqual);
   const dispatch = useDispatch();
 
   useEffect(() => {
