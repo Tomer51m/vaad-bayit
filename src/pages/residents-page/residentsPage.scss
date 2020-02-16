@@ -1,4 +1,7 @@
 .residents-page {
+  height: 100%;
+  width: 100%;
+  
     & .residents-title, .residents-desc{
         padding: 10px 0 5px 10px;
     }
@@ -8,6 +11,12 @@
   .residents-main {
     display: flex;
     flex-direction: row;
-    height: 100vh;
+    height: 100%;
   }
+}
+
+.edit-redisdent-form {
+  width: 800px;
+  margin: auto;
+  margin-top: 50px;
 }

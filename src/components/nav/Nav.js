@@ -7,10 +7,10 @@ import history from "../../history";
 function Nav({ match }) {
   return (
     <div className="header-container">
-      <div className="header-logo">
-        <Link to="/">Vaad Bayit</Link>
-      </div>
       <nav className="nav" role="navigation">
+        <div className="header-logo">
+          <Link to="/">Vaad Bayit</Link>
+        </div>
         <li className="list-item">
           <Link to={`${match.url}/residents`}>Residents</Link>
         </li>

@@ -40,7 +40,9 @@ function ResidentsPage() {
   return (
     <div className="residents-page">
       <Modal showModal={showModal} handleClose={handleCloseModal}>
-        <ResidentForm editUser={editUser} />
+        <div class="edit-redisdent-form">
+          <ResidentForm editUser={editUser} />
+        </div>
       </Modal>
       <header className="residents-header">
         <h2 className="residents-title">Residents page</h2>
