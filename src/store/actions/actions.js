@@ -21,6 +21,31 @@ export function createUser(user) {
   };
 }
 
+export function createMasterUser(user) {
+  console.log("create master user", user)
+  return async dispatch => {
+    const response = await fetch(`http://localhost:8080/api/signup/`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+        first_name: user.firstName,
+        last_name: user.lastName,
+        email: user.email,
+        password: user.password,
+        passwordConfirmation: user.passwordConfirmation
+      })
+    });
+    const newUser = await response.json();
+    // dispatch({
+    //   type: "CREATE_USER",
+    //   newUser
+    // });
+  };
+}
+
+
 export function getUsers() {
   return async dispatch => {
     const response = await fetch("http://localhost:8080/api/users/");
