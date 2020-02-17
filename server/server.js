@@ -4,6 +4,7 @@ const cors = require("cors");
 const express = require("express");
 const app = express();
 const uuidv4 = require("uuid/v4");
+const bcrypt = require("bcrypt");
 
 app.set("port", 8080);
 app.use(
@@ -138,7 +139,7 @@ app.put("/api/users/", async (req, res) => {
     const queryTemplate = "SELECT * FROM residents WHERE res_id = $1";
 
     const response = await pool.query(queryTemplate, [res_id]);
-    let user = response.rows[0]
+    let user = response.rows[0];
     res.json(user);
   } catch (err) {
     res.status(500).json(err.stack);
@@ -160,15 +161,45 @@ app.delete("/api/users/", async (req, res) => {
 
 // authentication ------
 
-app.post("/api/register", async (req, res) => {
+app.post("/api/signup", async (req, res) => {
+  console.log("/api/signup", req.body)
   try {
-    const queryTemplate = "SELECT * FROM residents WHERE email = $1";
-    await pool.query(queryTemplate, [email]);
+    const {
+      first_name,
+      last_name,
+      email,
+      password,
+      PasswordConfirmation
+    } = req.body;
 
-    res.json("registration information")
+    const uuid = uuidv4();
+
+    function confirmPasswordsMatch(password, confirmPassword) {
+      if (password === confirmPassword) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    async function hashPassword(password) {
+      return await bcrypt.hash(password, 10);
+    }
+    /*
+    const queryTemplate = "INSERT INTO users VALUES ($1, $2, $3, $4, $5)";
+    await pool.query(queryTemplate, [
+      uuid,
+      first_name,
+      last_name,
+      email,
+      pass
+    ]);
+    */
+
+    res.json("registration information");
   } catch (err) {
     res.status(500).json(err.stack);
-    console.log(err.stack)
+    console.log(err.stack);
   }
 });
 
@@ -177,9 +208,9 @@ app.post("/api/login", async (req, res) => {
     const queryTemplate = "SELECT * FROM residents WHERE email = $1";
     await pool.query(queryTemplate, [email]);
 
-    res.json("login token and user info")
+    res.json("login token and user info");
   } catch (err) {
     res.status(500).json(err.stack);
-    console.log(err.stack)
+    console.log(err.stack);
   }
 });
