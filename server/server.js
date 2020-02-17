@@ -157,3 +157,29 @@ app.delete("/api/users/", async (req, res) => {
     console.error(err.stack);
   }
 });
+
+// authentication ------
+
+app.post("/api/register", async (req, res) => {
+  try {
+    const queryTemplate = "SELECT * FROM residents WHERE email = $1";
+    await pool.query(queryTemplate, [email]);
+
+    res.json("registration information")
+  } catch (err) {
+    res.status(500).json(err.stack);
+    console.log(err.stack)
+  }
+});
+
+app.post("/api/login", async (req, res) => {
+  try {
+    const queryTemplate = "SELECT * FROM residents WHERE email = $1";
+    await pool.query(queryTemplate, [email]);
+
+    res.json("login token and user info")
+  } catch (err) {
+    res.status(500).json(err.stack);
+    console.log(err.stack)
+  }
+});
