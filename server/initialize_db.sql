@@ -1,12 +1,29 @@
+CREATE TABLE users
+(
+    user_uid UUID NOT NULL PRIMARY KEY,
+    email VARCHAR NOT NULL,
+    pass VARCHAR NOT NULL,
+    UNIQUE(email)
+);
+
 CREATE TABLE residents
 (
-    res_id UUID NOT NULL PRIMARY KEY,
+    res_uid UUID NOT NULL PRIMARY KEY,
     first_name VARCHAR NOT NULL,
     last_name VARCHAR NOT NULL,
-    apartment_number VARCHAR NOT NULL,
-    floor_number VARCHAR NOT null,
-    is_owner BOOLEAN NOT NULL
+    apartment_number VARCHAR,
+    floor_number VARCHAR,
+    is_owner BOOLEAN,
+    manager_uid UUID REFERENCES users (user_uid)
+    /*need to add Not null to manager_uid*/
 );
+
+insert into users
+    (user_uid, email, pass)
+VALUES
+    (uuid_generate_v4(), "tomer.matmon@gmail.com", "tomer.matmon"),
+    (uuid_generate_v4(), "sharon.aricha@gmail.com", "sharon.aricha"),
+    (uuid_generate_v4(), "avner.aricha@gmail.com", "avner.aricha");
 
 insert into residents
     (res_id, first_name, last_name, floor_number, apartment_number, is_owner)
