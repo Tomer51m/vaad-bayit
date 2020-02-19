@@ -1,42 +1,43 @@
 CREATE TABLE users
 (
-    user_uid UUID NOT NULL PRIMARY KEY,
-    first_name VARCHAR NOT NULL,
-    last_name VARCHAR NOT NULL,
-    email VARCHAR NOT NULL,
-    pass VARCHAR NOT NULL,
-    UNIQUE(email)
+    user_uid UUID PRIMARY KEY,
+    first_name text NOT NULL,
+    last_name text NOT NULL,
+    email text UNIQUE,
+    password text,
+    user_created timestamp NOT NULL,
+    apartment_number integer,
+    floor_number integer,
+    is_owner BOOLEAN
 );
 
-CREATE TABLE residents
+CREATE TABLE buildings
 (
-    res_uid UUID NOT NULL PRIMARY KEY,
-    first_name VARCHAR NOT NULL,
-    last_name VARCHAR NOT NULL,
-    apartment_number VARCHAR,
-    floor_number VARCHAR,
-    is_owner BOOLEAN,
-    manager_uid UUID REFERENCES users (user_uid)
-    /*need to add Not null to manager_uid*/
+    building_uid UUID PRIMARY KEY,
+    building_created timestamp NOT NULL,
+    city text NOT NULL,
+    street text NOT NULL,
+    num integer NOT NULL
+);
+
+CREATE TABLE buildings_users
+(
+    building_uid UUID NOT NULL,
+    user_uid UUID NOT NULL,
+    bu_created timestamp NOT NULL,
+    is_admin BOOLEAN,
+    PRIMARY KEY (building_uid, user_uid),
+    FOREIGN KEY (building_uid) REFERENCES buildings(building_uid) ON UPDATE CASCADE,
+    FOREIGN KEY (user_uid) REFERENCES users(user_uid) ON UPDATE CASCADE
 );
 
 insert into users
-    (user_uid, email, pass)
+    (user_uid, first_name, last_name, email, password, user_created, apartment_number, floor_number, is_owner)
 VALUES
-    (uuid_generate_v4(), "tomer.matmon@gmail.com", "tomer.matmon"),
-    (uuid_generate_v4(), "sharon.aricha@gmail.com", "sharon.aricha"),
-    (uuid_generate_v4(), "avner.aricha@gmail.com", "avner.aricha");
+    (uuid_generate_v4(), 'tomer', 'matmon', 'tomer.matmon@gmail.com', crypt('tomermatmon', gen_salt('bf', 4)), now(), 6, 3, true),
+    (uuid_generate_v4(), 'sharon', 'aricha matmon', 'sharon.aricha.matmon@gmail.com', crypt('sharonarichamatmon', gen_salt('bf', 4)), now(), 6, 3, true);
 
-insert into residents
-    (res_id, first_name, last_name, floor_number, apartment_number, is_owner)
+insert into buildings
+    (building_uid, building_created, city, street, num)
 VALUES
-    (uuid_generate_v4(), 'tomer', 'matmon', 3, 6, true),
-    (uuid_generate_v4(), 'sharon', 'aricha', 3, 6, true),
-    (uuid_generate_v4(), 'menashe', 'zalman', 1, 1, true),
-    (uuid_generate_v4(), 'tal', 'sonago', 1, 2, true),
-    (uuid_generate_v4(), 'michal', 'sonago', 1, 2, true),
-    (uuid_generate_v4(), 'zeev', 'horpi', 2, 3, true),
-    (uuid_generate_v4(), 'hana', 'horpi', 2, 3, true),
-    (uuid_generate_v4(), 'gil', 'mor', 2, 4, true),
-    (uuid_generate_v4(), 'yasmin', 'mor', 2, 4, true),
-    (uuid_generate_v4(), 'dafna', 'cohen', 3, 5, false);
+    (uuid_generate_v4(), now(), 'haifa', 'alter', 3);
