@@ -6,9 +6,6 @@ CREATE TABLE users
     email text UNIQUE,
     password text,
     user_created timestamp NOT NULL,
-    apartment_number integer,
-    floor_number integer,
-    is_owner BOOLEAN
 );
 
 CREATE TABLE buildings
@@ -20,12 +17,24 @@ CREATE TABLE buildings
     num integer NOT NULL
 );
 
+CREATE TABLE apartments
+(
+    apartment_uid uuid PRIMARY KEY,
+    owner_name text NOT NULL,
+    renter_name text,
+    apartment_number integer UNIQUE,
+    floor_number integer,
+    is_rented BOOLEAN,
+    user_created timestamp NOT NULL,
+    building_uid UUID NOT NULL,
+    FOREIGN KEY (building_uid) REFERENCES buildings(building_uid)
+)
+
 CREATE TABLE buildings_users
 (
     building_uid UUID NOT NULL,
     user_uid UUID NOT NULL,
     bu_created timestamp NOT NULL,
-    is_admin BOOLEAN,
     PRIMARY KEY (building_uid, user_uid),
     FOREIGN KEY (building_uid) REFERENCES buildings(building_uid) ON UPDATE CASCADE,
     FOREIGN KEY (user_uid) REFERENCES users(user_uid) ON UPDATE CASCADE
