@@ -35,30 +35,28 @@ async function initialize() {
 }
 initialize().catch(err => console.error(err));
 
+// get all users // -not needed anymore
 app.get("/api/users/", async (req, res) => {
   try {
-    const queryTemplate = `SELECT 
-        res_id,
-        first_name,
-        last_name, 
-        apartment_number,
-        floor_number,
-        is_owner
-        FROM residents`;
+    const queryTemplate = `SELECT * FROM users`;
     const response = await pool.query(queryTemplate);
     res.json(response.rows);
   } catch (err) {
-    res.status(500).json(err.stack);
+    res.status(500).json({
+      message: "cannot get users",
+      error: err.stack
+    });
     console.error(err.stack);
   }
 });
 
-app.get("/api/users/:id", async (req, res) => {
-  const id = req.params.id;
+// get user by uid //
+app.get("/api/users/:uid", async (req, res) => {
+  const uid = req.params.uid;
   try {
     const queryTemplate =
-      "SELECT first_name, last_name FROM users WHERE res_id = $1";
-    const response = await pool.query(queryTemplate, [id]);
+      "SELECT * FROM users WHERE user_uid = $1";
+    const response = await pool.query(queryTemplate, [uid]);
 
     if (response.rowCount === 0) {
       res.status(404).json({});
@@ -66,95 +64,107 @@ app.get("/api/users/:id", async (req, res) => {
       res.json(response.rows[0]);
     }
   } catch (err) {
-    res.status(500).json(err.stack);
+    res.status(500).json({
+      message: "cannot get user",
+      error: err.stack
+    });
     console.error(err.stack);
   }
 });
 
+// create user //
 app.post("/api/users/", async (req, res) => {
   const {
     first_name,
     last_name,
-    apartment_number,
-    floor_number,
-    is_owner
+    email,
+    password
   } = req.body;
 
   try {
     const uuid = uuidv4();
+    const user_created = "2020-02-20 11:11:11.554346" // need to fix date //
     const queryTemplate =
-      "INSERT INTO residents VALUES ($1, $2, $3, $4, $5, $6)";
+      "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6)";
     await pool.query(queryTemplate, [
       uuid,
       first_name,
       last_name,
-      apartment_number,
-      floor_number,
-      is_owner
+      email,
+      password,
+      user_created
     ]);
     res.json({});
   } catch (err) {
-    res.status(500).json(err.stack);
+      res.status(500).json({
+        message: "cannot create user",
+        error: err.stack
+      });
     console.error(err.stack);
   }
 });
 
-app.put("/api/users/", async (req, res) => {
+// update user and return updated user//
+app.put("/api/users/:uid", async (req, res) => {
   const {
     first_name,
     last_name,
-    apartment_number,
-    floor_number,
-    is_owner,
-    res_id
+    email,
+    password,
   } = req.body;
+
+  const uid = req.params.uid;
 
   try {
     if (first_name) {
       const queryTemplate =
-        "UPDATE residents SET first_name = $1 WHERE res_id = $2";
-      await pool.query(queryTemplate, [first_name, res_id]);
+        "UPDATE users SET first_name = $1 WHERE user_uid = $2";
+      await pool.query(queryTemplate, [first_name, uid]);
     }
     if (last_name) {
       const queryTemplate =
-        "UPDATE residents SET last_name = $1 WHERE res_id = $2";
-      await pool.query(queryTemplate, [last_name, res_id]);
+        "UPDATE users SET last_name = $1 WHERE user_uid = $2";
+      await pool.query(queryTemplate, [last_name, uid]);
     }
-    if (apartment_number) {
+    if (email) {
       const queryTemplate =
-        "UPDATE residents SET apartment_number = $1 WHERE res_id = $2";
-      await pool.query(queryTemplate, [apartment_number, res_id]);
+        "UPDATE users SET email = $1 WHERE user_uid = $2";
+      await pool.query(queryTemplate, [email, uid]);
     }
-    if (floor_number) {
+    if (password) {
       const queryTemplate =
-        "UPDATE residents SET floor_number = $1 WHERE res_id = $2";
-      await pool.query(queryTemplate, [floor_number, res_id]);
-    }
-    if (is_owner === true || is_owner === false) {
-      const queryTemplate =
-        "UPDATE residents SET is_owner = $1 WHERE res_id = $2";
-      await pool.query(queryTemplate, [is_owner, res_id]);
+        "UPDATE users SET password = $1 WHERE user_uid = $2";
+      await pool.query(queryTemplate, [password, uid]);
     }
 
-    const queryTemplate = "SELECT * FROM residents WHERE res_id = $1";
+    const queryTemplate = "SELECT * FROM users WHERE user_uid = $1";
 
-    const response = await pool.query(queryTemplate, [res_id]);
+    const response = await pool.query(queryTemplate, [uid]);
     let user = response.rows[0];
     res.json(user);
   } catch (err) {
-    res.status(500).json(err.stack);
+    res.status(500).json({
+      message: "cannot update user",
+      error: err.stack
+    });
     console.error(err.stack);
   }
 });
 
-app.delete("/api/users/", async (req, res) => {
-  const id = req.body.res_id;
+// delete user //
+app.delete("/api/users/:uid", async (req, res) => {
+  const uid = req.params.uid;
   try {
-    const queryTemplate = "DELETE FROM residents WHERE res_id = $1";
-    await pool.query(queryTemplate, [id]);
-    res.json({});
+    const queryTemplate = "DELETE FROM users WHERE user_uid = $1";
+    await pool.query(queryTemplate, [uid]);
+    res.json({
+      message: "user deleted",
+    });
   } catch (err) {
-    res.status(500).json(err.stack);
+    res.status(500).json({
+      message: "cannot delete user",
+      error: err.stack
+    });
     console.error(err.stack);
   }
 });
@@ -198,7 +208,10 @@ app.post("/api/signup", async (req, res) => {
 
     res.json("registration information");
   } catch (err) {
-    res.status(500).json(err.stack);
+    res.status(500).json({
+      message: "cannot signup user",
+      error: err.stack
+    });
     console.log(err.stack);
   }
 });
@@ -210,7 +223,10 @@ app.post("/api/login", async (req, res) => {
 
     res.json("login token and user info");
   } catch (err) {
-    res.status(500).json(err.stack);
+    res.status(500).json({
+      message: "cannot login user",
+      error: err.stack
+    });
     console.log(err.stack);
   }
 });
