@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 
 const usersRoutes = require("./routes/users.routes");
+const buildingsRoutes = require("./routes/buildings.routes");
 const authRoutes = require("./routes/auth.routes");
 
 app.set("port", 8080);
@@ -37,4 +38,5 @@ initialize().catch(err => console.error(err));
 
 // routes
 app.use(usersRoutes.route);
+app.use(buildingsRoutes.route);
 app.use(authRoutes.route)
