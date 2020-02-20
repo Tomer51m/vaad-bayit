@@ -26,12 +26,12 @@ route.get("/api/users/", async (req, res) => {
   }
 });
 
-// get user by uid //
-route.get("/api/users/:uid", async (req, res) => {
-  const uid = req.params.uid;
+// get user by id //
+route.get("/api/users/:id", async (req, res) => {
+  const id = req.params.id;
   try {
-    const queryTemplate = "SELECT * FROM users WHERE user_uid = $1";
-    const response = await pool.query(queryTemplate, [uid]);
+    const queryTemplate = "SELECT * FROM users WHERE user_id = $1";
+    const response = await pool.query(queryTemplate, [id]);
 
     if (response.rowCount === 0) {
       res.status(404).json({});
@@ -74,35 +74,35 @@ route.post("/api/users/", async (req, res) => {
 });
 
 // update user and return updated user//
-route.put("/api/users/:uid", async (req, res) => {
+route.put("/api/users/:id", async (req, res) => {
   const { first_name, last_name, email, password } = req.body;
 
-  const uid = req.params.uid;
+  const id = req.params.id;
 
   try {
     if (first_name) {
       const queryTemplate =
-        "UPDATE users SET first_name = $1 WHERE user_uid = $2";
-      await pool.query(queryTemplate, [first_name, uid]);
+        "UPDATE users SET first_name = $1 WHERE user_id = $2";
+      await pool.query(queryTemplate, [first_name, id]);
     }
     if (last_name) {
       const queryTemplate =
-        "UPDATE users SET last_name = $1 WHERE user_uid = $2";
-      await pool.query(queryTemplate, [last_name, uid]);
+        "UPDATE users SET last_name = $1 WHERE user_id = $2";
+      await pool.query(queryTemplate, [last_name, id]);
     }
     if (email) {
-      const queryTemplate = "UPDATE users SET email = $1 WHERE user_uid = $2";
-      await pool.query(queryTemplate, [email, uid]);
+      const queryTemplate = "UPDATE users SET email = $1 WHERE user_id = $2";
+      await pool.query(queryTemplate, [email, id]);
     }
     if (password) {
       const queryTemplate =
-        "UPDATE users SET password = $1 WHERE user_uid = $2";
-      await pool.query(queryTemplate, [password, uid]);
+        "UPDATE users SET password = $1 WHERE user_id = $2";
+      await pool.query(queryTemplate, [password, id]);
     }
 
-    const queryTemplate = "SELECT * FROM users WHERE user_uid = $1";
+    const queryTemplate = "SELECT * FROM users WHERE user_id = $1";
 
-    const response = await pool.query(queryTemplate, [uid]);
+    const response = await pool.query(queryTemplate, [id]);
     let user = response.rows[0];
     res.json(user);
   } catch (err) {
@@ -115,11 +115,11 @@ route.put("/api/users/:uid", async (req, res) => {
 });
 
 // delete user //
-route.delete("/api/users/:uid", async (req, res) => {
-  const uid = req.params.uid;
+route.delete("/api/users/:id", async (req, res) => {
+  const id = req.params.id;
   try {
-    const queryTemplate = "DELETE FROM users WHERE user_uid = $1";
-    await pool.query(queryTemplate, [uid]);
+    const queryTemplate = "DELETE FROM users WHERE user_id = $1";
+    await pool.query(queryTemplate, [id]);
     res.json({
       message: "user deleted"
     });
