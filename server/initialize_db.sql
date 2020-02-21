@@ -22,7 +22,7 @@ CREATE TABLE apartments
     apartment_id uuid PRIMARY KEY,
     owner_name text NOT NULL,
     renter_name text,
-    apartment_number integer UNIQUE,
+    apartment_number integer,
     floor_number integer,
     is_rented BOOLEAN NOT NULL,
     apartment_created timestamp NOT NULL,
