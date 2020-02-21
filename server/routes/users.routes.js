@@ -1,5 +1,7 @@
 const { Router } = require("express");
 const route = Router();
+const uuidv4 = require("uuid/v4");
+const bcrypt = require("bcrypt");
 
 const { Pool } = require("pg");
 const config = {
@@ -32,7 +34,7 @@ route.get("/api/users/:id", async (req, res) => {
   try {
     const queryTemplate = "SELECT * FROM users WHERE user_id = $1";
     const response = await pool.query(queryTemplate, [id]);
-
+    console.log(response)
     if (response.rowCount === 0) {
       res.status(404).json({});
     } else {
