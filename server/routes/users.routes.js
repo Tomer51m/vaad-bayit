@@ -1,7 +1,5 @@
 const { Router } = require("express");
 const route = Router();
-const uuidv4 = require("uuid/v4");
-const bcrypt = require("bcrypt");
 
 const { Pool } = require("pg");
 const config = {
@@ -49,32 +47,6 @@ route.get("/api/users/:id", async (req, res) => {
   }
 });
 
-// create user //
-route.post("/api/users/", async (req, res) => {
-  const { first_name, last_name, email, password } = req.body;
-
-  try {
-    const uuid = uuidv4();
-    const user_created = "2020-02-20 11:11:11.554346"; // need to fix date //
-    const queryTemplate = "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6)";
-    await pool.query(queryTemplate, [
-      uuid,
-      first_name,
-      last_name,
-      email,
-      password,
-      user_created
-    ]);
-    res.json({});
-  } catch (err) {
-    res.status(500).json({
-      message: "cannot create user",
-      error: err.stack
-    });
-    console.error(err.stack);
-  }
-});
-
 // update user and return updated user//
 route.put("/api/users/:id", async (req, res) => {
   const { first_name, last_name, email, password } = req.body;
@@ -103,10 +75,9 @@ route.put("/api/users/:id", async (req, res) => {
     }
 
     const queryTemplate = "SELECT * FROM users WHERE user_id = $1";
-
-    const response = await pool.query(queryTemplate, [id]);
-    let user = response.rows[0];
-    res.json(user);
+    const updatedUser = await pool.query(queryTemplate, [id]);
+    
+    res.json(updatedUser.rows);
   } catch (err) {
     res.status(500).json({
       message: "cannot update user",
