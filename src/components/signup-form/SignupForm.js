@@ -52,43 +52,43 @@ const Signup = () => {
           <Form className="signup__form">
             <div className="field">
               <label htmlFor="firstName">First Name</label>
-              <Field name="firstName" type="text" />
               <ErrorMessage
                 name="firstName"
                 render={msg => <span className="error">{msg}</span>}
               />
+              <Field name="firstName" type="text" />
             </div>
             <div className="field">
               <label htmlFor="lastName">Last Name</label>
-              <Field name="lastName" type="text" />
               <ErrorMessage
                 name="lastName"
                 render={msg => <span className="error">{msg}</span>}
               />
+              <Field name="lastName" type="text" />
             </div>
             <div className="field">
               <label htmlFor="email">Email</label>
-              <Field name="email" type="text" />
               <ErrorMessage
                 name="email"
                 render={msg => <span className="error">{msg}</span>}
               />
+              <Field name="email" type="text" />
             </div>
             <div className="field">
               <label htmlFor="password">Password</label>
-              <Field name="password" type="password" />
               <ErrorMessage
                 name="password"
                 render={msg => <span className="error">{msg}</span>}
               />
+              <Field name="password" type="password" />
             </div>
             <div className="field">
               <label htmlFor="passwordConfirmation">Confirm Password</label>
-              <Field name="passwordConfirmation" type="password" />
               <ErrorMessage
                 name="passwordConfirmation"
                 render={msg => <span className="error">{msg}</span>}
               />
+              <Field name="passwordConfirmation" type="password" />
             </div>
             <button type="submit" disabled={isSubmitting}>
               Signup

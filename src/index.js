@@ -16,6 +16,7 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import allReducers from "./store/reducers/allReducers";
 import { composeWithDevTools } from "redux-devtools-extension";
+import LandingPage from "./pages/landing-page/LandingPage";
 
 const store = createStore(
   allReducers,
@@ -31,7 +32,7 @@ ReactDOM.render(
         <PrivateRoute path="/home" component={App} />
         <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={SignupPage} />
-        <Route path="/" render={() => <Redirect to="/home" />} />
+        <Route path="/" component={LandingPage} />
         <Route component={NoMatch} />
       </Switch>
     </Router>

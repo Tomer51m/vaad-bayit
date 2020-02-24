@@ -9,7 +9,7 @@ function Nav({ match }) {
     <div className="header-container">
       <nav className="nav" role="navigation">
         <div className="header-logo">
-          <Link to="/">Vaad Bayit</Link>
+          <Link to="/home">Vaad Bayit</Link>
         </div>
         <li className="list-item">
           <Link to={`${match.url}/residents`}>Residents</Link>

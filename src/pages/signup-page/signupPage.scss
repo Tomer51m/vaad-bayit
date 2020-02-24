@@ -1,12 +1,20 @@
-.landing-container {
-    margin: 0 auto;
-    padding: 100px;
+.signupPage-container {
+  margin: 0 auto;
+  padding: 50px;
 
-    & h1 {
-        text-align: center;
-    }
+  & h1 {
+    text-align: center;
+  }
 
-    & p {
-        text-align: center;
-    }
+  & .form-container {
+    width: 35vw;
+    margin: 50px auto 0 auto;
+    padding: 35px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+  }
+
+  & p {
+    text-align: center;
+  }
 }
