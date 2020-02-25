@@ -36,20 +36,6 @@
   color: red;
 }
 
-@media (max-width: 1024px) {
-  .signup {
-    width: 50vw;
-  }
-}
-
-@media (max-width: 800px) {
-  .signup {
-    width: 70vw;
-  }
-}
-
-@media (max-width: 350px) {
-  .signup {
-    width: 90vw;
-  }
+.form-hidden {
+  display: none;
 }
