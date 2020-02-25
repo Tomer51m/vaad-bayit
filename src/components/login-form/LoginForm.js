@@ -2,33 +2,36 @@ import React from "react";
 import "./loginForm.scss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { setAuthentication } from "../../Auth";
-import history from "../../history";
-const initialValues = { email: "", password: "" };
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { signin } from "../../store/actions/userActions";
 
-const errorSchema = Yup.object({
-  email: Yup.string()
-    .email("Invalid Email")
-    .required("Email is required"),
-  password: Yup.string()
-    .min(8, "Password must be 8 characters or longer")
-    .required("Password is required")
-});
+function Login() {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.users, shallowEqual);
+  const initialValues = { email: "", password: "" };
+  const errorSchema = Yup.object({
+    email: Yup.string()
+      .email("Invalid Email")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(8, "Password must be 8 characters or longer")
+      .required("Password is required")
+  });
 
-const Login = props => {
-  console.log("login render");
+  async function handleSubmit(values, actions) {
+    actions.setSubmitting(true);
+    dispatch(signin(values));
+    setTimeout(() => {
+      actions.setSubmitting(false);
+    }, 2000);
+  }
   return (
     <div className="login">
       <h1 className="login__header">Login</h1>
       <Formik
         initialValues={initialValues}
         validationSchema={errorSchema}
-        onSubmit={(values, actions) => {
-          console.log(JSON.stringify(values, null, 2));
-          actions.setSubmitting(false);
-          setAuthentication(true);
-          history.push("/home");
-        }}
+        onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
           <Form className="login__form">
@@ -48,6 +51,11 @@ const Login = props => {
               />
               <Field name="password" type="password" />
             </div>
+            <div>
+              {user && user.error ? (
+                <span className="error">{user.error}</span>
+              ) : null}
+            </div>
             <button type="submit" disabled={isSubmitting}>
               Login
             </button>
@@ -56,6 +64,6 @@ const Login = props => {
       </Formik>
     </div>
   );
-};
+}
 
 export default Login;
