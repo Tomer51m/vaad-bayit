@@ -6,6 +6,7 @@
   & .nav {
     display: flex;
     flex-direction: row;
+    align-items: center;
     width: 100%;
     background-color: rgb(47, 55, 79);
     height: 100%;
@@ -51,10 +52,15 @@
     }
   }
 
+ .user-greeting {
+    margin-left: auto;
+    margin-right: 20px;
+  }
+
   .logout-button {
     width: 80px;
     height: 30px;
-    margin: auto 20px auto auto;
+    margin-right: 20px;
     padding: 5px 8px;
     border-radius: 4px;
     font-size: 11px;
