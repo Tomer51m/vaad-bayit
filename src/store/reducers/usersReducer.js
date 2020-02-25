@@ -1,25 +1,35 @@
-const usersReducer = (state = [], action) => {
+const initialState = {
+  isAuthenticated: false,
+  user: null,
+  errors: null
+};
+const usersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "CREATE_USER":
-      return [...state, action.newUser];
-    case "GET_USERS":
-      return action.users;
-    case "DELETE_USER":
-      return state.filter(user => user.res_id !== action.res_id);
-    case "UPDATE_USER":
-      console.table(state)
-      console.log("action updated user",action.updatedUser)
+    case "LOGIN_SUCCESS":
+      return {
+        ...state,
+        isAuthenticated: true,
+        user: action.responseData
+      };
+    case "LOGIN_FAILED":
+      return {
+        ...state,
+        isAuthenticated: false,
+        error: action.responseData.error
+      };
+    case "SIGNUP_SUCCESS":
+      return {
+        ...state,
+        isAuthenticated: true,
+        user: action.responseData
+      };
+    case "SIGNUP_FAILED":
+      return {
+        ...state,
+        isAuthenticated: false,
+        error: action.responseData.error
+      };
 
-      let map = state.map(user => {
-        if (user.res_id === action.updatedUser.res_id) {
-          console.log("map function user",user)
-          return action.updatedUser;
-        } else {
-          return user;
-        }
-      });
-      console.table(state)
-      return map
     default:
       return state;
   }
