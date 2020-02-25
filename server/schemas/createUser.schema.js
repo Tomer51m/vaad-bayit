@@ -11,7 +11,10 @@ const createUserSchema = Yup.object().shape({
     .min(8, "Password must be 8 characters or longer"),
   passwordConfirmation: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
-    .required("Enter password again")
+    .required("Enter password again"),
+  city: Yup.string().required("City is required"),
+  street: Yup.string().required("Street is required"),
+  number: Yup.string().required("Building number is required")
 });
 
 module.exports = {
