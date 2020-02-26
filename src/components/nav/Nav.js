@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./nav.scss";
 import { Link, withRouter } from "react-router-dom";
-import history from "../../history";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../store/actions/userActions";
 
 function Nav({ match }) {
+  const dispatch = useDispatch();
   const { user } = useSelector(state => state.users);
   console.log("nav user", user);
   return (
@@ -23,7 +24,7 @@ function Nav({ match }) {
         <button
           className="logout-button"
           onClick={() => {
-            history.push("/login");
+            dispatch(logout())
           }}
         >
           Logout
