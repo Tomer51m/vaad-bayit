@@ -1,7 +1,6 @@
 const { Router } = require("express");
 const route = Router();
 const uuidv4 = require("uuid/v4");
-const bcrypt = require("bcrypt");
 
 const { Pool } = require("pg");
 const config = {
