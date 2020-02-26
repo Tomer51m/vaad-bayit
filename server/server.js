@@ -4,9 +4,10 @@ const cors = require("cors");
 const express = require("express");
 const app = express();
 
+const authRoutes = require("./routes/auth.routes");
 const usersRoutes = require("./routes/users.routes");
 const buildingsRoutes = require("./routes/buildings.routes");
-const authRoutes = require("./routes/auth.routes");
+const apartmentsRoutes = require("./routes/apartments.routes");
 
 app.set("port", 8080);
 app.use(
@@ -37,6 +38,7 @@ async function initialize() {
 initialize().catch(err => console.error(err));
 
 // routes
+app.use(authRoutes.route)
 app.use(usersRoutes.route);
 app.use(buildingsRoutes.route);
-app.use(authRoutes.route)
+app.use(apartmentsRoutes.route);
