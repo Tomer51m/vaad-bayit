@@ -28,12 +28,13 @@ route.get("/api/buildings/", async (req, res) => {
 });
 
 // get all buildings of user by user_id //
-route.get("/api/buildings/:id", async (req, res) => {
-  const id = req.params.id;
+route.get("/api/buildings/:userId", async (req, res) => {
+  console.log("building req", req.params, req.body)
+  const userId = req.params.userId;
   try {
     const queryTemplate =
       "SELECT buildings.* FROM buildings, buildings_users WHERE buildings_users.building_id = buildings.building_id AND user_id = $1";
-    const response = await pool.query(queryTemplate, [id]);
+    const response = await pool.query(queryTemplate, [userId]);
     console.log(response);
     if (response.rowCount === 0) {
       res.status(404).json({});
