@@ -18,7 +18,7 @@ const pool = new Pool(config);
 // create new user + create building for user + assign building to user//
 route.post("/api/auth/signup", async (req, res) => {
   try {
-    console.log("request body", req.body)
+    console.log("request body", req.body);
     await createUserSchema.validate(req.body, { abortEarly: false }); // need to refactor as middleware //
 
     const {
@@ -43,12 +43,19 @@ route.post("/api/auth/signup", async (req, res) => {
       passwordHash,
       user_created
     ]);
-    
+
     const building_uuid = uuidv4();
     const building_created = "2020-02-20 11:11:11.554346"; // need to fix date //
-    const queryNewBuilding = "INSERT INTO buildings VALUES ($1, $2, $3, $4, $5)";
-    await pool.query(queryNewBuilding, [building_uuid, building_created, city, street, number]);
-    
+    const queryNewBuilding =
+      "INSERT INTO buildings VALUES ($1, $2, $3, $4, $5)";
+    await pool.query(queryNewBuilding, [
+      building_uuid,
+      building_created,
+      city,
+      street,
+      number
+    ]);
+
     const bu_created = "2020-02-20 11:11:11.554346"; // need to fix date //
     const queryNewBU = "INSERT INTO buildings_users VALUES ($1, $2, $3)";
     await pool.query(queryNewBU, [building_uuid, user_uuid, bu_created]);
@@ -61,38 +68,50 @@ route.post("/api/auth/signup", async (req, res) => {
     console.error(err);
     res.status(500).json({
       message: "signup failed",
-      error: "can't signup user"
+      error: `can't signup user: ${err.message}`
     });
   }
 });
 
 // login user //
-route.post("/api/auth/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
+route.post(
+  "/api/auth/login",
+  captureErrors("Login Failed", async (req, res) => {
+    try {
+      const { email, password } = req.body;
 
-    const queryTemplate = "SELECT * FROM users WHERE email = $1";
-    const response = await pool.query(queryTemplate, [email]);
-    const user = response.rows[0];
-    const validPassword = await bcrypt.compare(password, user.password);
+      const queryTemplate = "SELECT * FROM users WHERE email = $1";
+      const response = await pool.query(queryTemplate, [email]);
+      const user = response.rows[0];
+      if (user === undefined) throw new Error("Email or password incorrect");
 
-    if (validPassword) {
+      const validPassword = await bcrypt.compare(password, user.password);
+      if (!validPassword) throw new Error("Email or password incorrect");
+
       const Token = jwt.sign({ uid: user.user_id }, process.env.TOKEN_SECRET);
       res.header("Authorization", `Bearer ${Token}`).json(user);
-    } else {
-      res.status(401).json({
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
         message: "Login failed",
-        error: "Email or password incorrect"
+        error: err.message
       });
     }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      message: "Login failed",
-      error: "Email or password incorrect"
-    });
-  }
-});
+  })
+);
+
+function captureErrors(messageOnError, originalHandler) {
+  return async function(req, res) {
+    try {
+      await originalHandler(req, res);
+    } catch (err) {
+      res.status(500).json({
+        message: messageOnError,
+        error: err.message
+      });
+    }
+  };
+}
 
 module.exports = {
   route
