@@ -13,7 +13,7 @@ export function signin({ email, password }) {
       })
     });
     const responseData = await response.json();
-    if (response.status !== 200) {
+    if (!response.ok) {
       dispatch({
         type: "LOGIN_FAILED",
         responseData
