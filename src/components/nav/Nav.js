@@ -7,7 +7,6 @@ import { logout } from "../../store/actions/userActions";
 function Nav({ match }) {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.users);
-  console.log("nav user", user);
   return (
     <div className="header-container">
       <nav className="nav" role="navigation">
