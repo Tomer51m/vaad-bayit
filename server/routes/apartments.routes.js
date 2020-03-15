@@ -27,13 +27,13 @@ route.get("/api/apartments/", async (req, res) => {
   }
 });
 
-// get all apartments of building by building_id //
-route.get("/api/apartments/:id", async (req, res) => {
-  const buildingId = req.params.id;
+// get all apartments of a building by building_id //
+route.get("/api/apartments/:buildingId", async (req, res) => {
+  const buildingId = req.params.buildingId;
   try {
     const queryTemplate =
-      "SELECT apartments.* FROM apartments, buildings_users WHERE buildings_users.building_id = buildings.building_id AND user_id = $1";
-    const response = await pool.query(queryTemplate, [id]);
+      "SELECT * FROM apartments WHERE building_id = $1";
+    const response = await pool.query(queryTemplate, [buildingId]);
     console.log(response);
     if (response.rowCount === 0) {
       res.status(404).json({});
@@ -42,7 +42,7 @@ route.get("/api/apartments/:id", async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({
-      message: "cannot get buildings for user",
+      message: "cannot get apartments for building",
       error: err.stack
     });
     console.error(err.stack);
