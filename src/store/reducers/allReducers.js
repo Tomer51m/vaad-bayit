@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 
 import usersReducer from "./usersReducer";
-import apartmentsReducer from "./aprartmentsReducer";
+import buildingsReducer from "./buildingsReducer";
 
 const allReducers = combineReducers({
   users: usersReducer,
-  apartments: apartmentsReducer
+  buildings: buildingsReducer
 });
 
 export default allReducers;
