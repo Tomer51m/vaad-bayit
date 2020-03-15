@@ -1,40 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./landingPage.scss";
-
-import SignupForm from "../../components/signup-form/SignupForm";
+import { Link } from "react-router-dom";
 import LoginForm from "../../components/login-form/LoginForm";
 
 function LandingPage() {
-  const [state, setState] = useState({
-    component: <LoginForm />,
-    urlText: "Don't"
-  });
-
-  function handleClick(e) {
-    e.preventDefault()
-    if (state.urlText == "Don't") {
-      setState({
-        component: <SignupForm />,
-        urlText: null
-      });
-    } else {
-      setState({
-        component: <LoginForm />,
-        urlText: "Don't"
-      });
-    }
-  }
-
   return (
     <div className="landingPage-container">
       <div className="form-section">
         <h2>Welcome to Vaad Bayit</h2>
-        <div className="form">{state.component}</div>
+        <div className="form">
+          <LoginForm />
+        </div>
         <p>
-          Don't have an account?{" "}
-          <a href="#" onClick={handleClick}>
-            signup
-          </a>
+          Don't have an account? <Link to="/signup">signup</Link>
         </p>
       </div>
       <div className="visual-section"></div>
