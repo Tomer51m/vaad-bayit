@@ -2,7 +2,7 @@ const { Router } = require("express");
 const route = Router();
 const uuidv4 = require("uuid/v4");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 const { createUserSchema } = require("../schemas/createUser.schema.js");
 
 const { Pool } = require("pg");
@@ -11,7 +11,7 @@ const config = {
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   host: process.env.DB_HOST,
-  port: process.env.DB_PORT
+  port: process.env.DB_PORT,
 };
 const pool = new Pool(config);
 
@@ -28,7 +28,7 @@ route.post("/api/auth/signup", async (req, res) => {
       password,
       city,
       street,
-      number
+      number,
     } = req.body;
 
     const user_uuid = uuidv4();
@@ -41,7 +41,7 @@ route.post("/api/auth/signup", async (req, res) => {
       last_name,
       email,
       passwordHash,
-      user_created
+      user_created,
     ]);
 
     const building_uuid = uuidv4();
@@ -53,7 +53,7 @@ route.post("/api/auth/signup", async (req, res) => {
       building_created,
       city,
       street,
-      number
+      number,
     ]);
 
     const bu_created = "2020-02-20 11:11:11.554346"; // need to fix date //
@@ -68,51 +68,48 @@ route.post("/api/auth/signup", async (req, res) => {
     console.error(err);
     res.status(500).json({
       message: "signup failed",
-      error: `can't signup user: ${err.message}`
+      error: `can't signup user: ${err.message}`,
     });
   }
 });
 
 // login user //
-route.post(
-  "/api/auth/login",
-  captureErrors("Login Failed", async (req, res) => {
-    try {
-      const { email, password } = req.body;
+route.post("/api/auth/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-      const queryTemplate = "SELECT * FROM users WHERE email = $1";
-      const response = await pool.query(queryTemplate, [email]);
-      const user = response.rows[0];
-      if (user === undefined) throw new Error("Email or password incorrect");
+    const queryTemplate = "SELECT * FROM users WHERE email = $1";
+    const response = await pool.query(queryTemplate, [email]);
+    const user = response.rows[0];
+    if (user === undefined) throw new Error("Email or password incorrect");
 
-      const validPassword = await bcrypt.compare(password, user.password);
-      if (!validPassword) throw new Error("Email or password incorrect");
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) throw new Error("Email or password incorrect");
 
-      const Token = jwt.sign({ uid: user.user_id }, process.env.TOKEN_SECRET);
-      res.header("Authorization", `Bearer ${Token}`).json(user);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({
-        message: "Login failed",
-        error: err.message
-      });
-    }
-  })
-);
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Login failed",
+      error: err.message,
+    });
+  }
+});
 
+//experimental - capture errors and return message
 function captureErrors(messageOnError, originalHandler) {
-  return async function(req, res) {
+  return async function (req, res) {
     try {
       await originalHandler(req, res);
     } catch (err) {
       res.status(500).json({
         message: messageOnError,
-        error: err.message
+        error: err.message,
       });
     }
   };
 }
 
 module.exports = {
-  route
+  route,
 };
