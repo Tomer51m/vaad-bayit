@@ -4,8 +4,9 @@ export function signin({ email, password }) {
   return async dispatch => {
     const response = await fetch(`http://localhost:8080/api/auth/login`, {
       method: "POST",
+      credentials: 'include',
       headers: {
-        "Content-type": "application/json"
+        "Content-type": "application/json",
       },
       body: JSON.stringify({
         email: email,
