@@ -64,8 +64,8 @@ export function signup(user) {
 }
 
 export function logout() {
-  console.log("logout action")
-  return dispatch => {
+  return async dispatch => {
+    const response = await fetch(`http://localhost:8080/api/auth/logout`)
     dispatch({
       type: "LOGOUT"
     });
