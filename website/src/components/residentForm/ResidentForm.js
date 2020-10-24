@@ -4,7 +4,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { createUser, updateUser } from "../../store/actions/apartmentsActions";
+import { updateUser } from "../../store/actions/buildingsActions";
 
 const ResidentForm = ({ editUser }) => {
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ const ResidentForm = ({ editUser }) => {
       }
     } else {
       try {
-        dispatch(createUser(values));
+        // dispatch(createUser(values));
         actions.resetForm();
       } catch (err) {
         console.error(err);
